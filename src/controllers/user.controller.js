@@ -57,10 +57,10 @@ const registerUser = asyncHandler(async (req, res) => {
   if (!avatarLocalPath) {
     throw new ApiError(400, "avatar is necessary");
   }
-
+  console.log(avatarLocalPath);
   const avatar = await uploadOnCloudinary(avatarLocalPath);
   const coverImage = await uploadOnCloudinary(coverImageLocalPath);
-
+  console.log(avatar);
   if (!avatar) {
     throw new ApiError(400, "avatar is necessary");
   }
@@ -71,7 +71,7 @@ const registerUser = asyncHandler(async (req, res) => {
     bio: bio || "",
     password,
     username: username.toLowerCase(),
-    avatar: avatar.url,
+    avatar: avatar?.url || "",
     coverImage: coverImage?.url || "",
   });
 
@@ -242,7 +242,7 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
   if (!coverImage.url) {
     throw new ApiError(400, "Error while uploading coverImage");
   }
-
+  console.log(coverImage.url);
   data.coverImage = coverImage?.url;
   await data.save({ validateBeforeSave: false });
 
